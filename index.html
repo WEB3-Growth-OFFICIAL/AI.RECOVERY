@@ -1,282 +1,117 @@
-<!doctype html>
-<html lang="en-US">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CoinStats Ai.Recovery – Crypto & Asset Recovery Experts | No Win No Fee</title>
-    <meta name="description" content="CoinStats Ai.Recovery helps you reclaim lost crypto and assets using advanced AI and professional investigators. Free consultation, global service." />
-    <link rel="canonical" href="https://coinstats-ai-recovery.com/" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="CoinStats Ai.Recovery – Crypto & Asset Recovery Experts | No Win No Fee" />
-    <meta property="og:description" content="CoinStats Ai.Recovery helps you reclaim lost crypto and assets using advanced AI and professional investigators. Free consultation, global service." />
-    <meta property="og:url" content="https://coinstats-ai-recovery.com/" />
-    <meta property="og:site_name" content="CoinStats Ai.Recovery" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@CoinStatsRecovery" />
-    <!-- Favicon (replace with your own) -->
-    <link rel="shortcut icon" href="https://coinstats-ai-recovery.com/assets/favicon.png" />
-    <style>
-        img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }
-    </style>
-
-    <!-- Organization Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "CoinStats Ai.Recovery",
-      "alternateName": "CoinStats Recovery",
-      "url": "https://coinstats-ai-recovery.com/",
-      "logo": "https://coinstats-ai-recovery.com/assets/logo.png",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+1 (555) 123-4567",
-        "contactType": "customer service",
-        "areaServed": "Worldwide",
-        "availableLanguage": "en"
-      },
-      "sameAs": [
-        "https://facebook.com/coinstatsrecovery",
-        "https://twitter.com/CoinStatsRecovery",
-        "https://instagram.com/coinstatsrecovery",
-        "https://linkedin.com/company/coinstats-ai-recovery"
-      ]
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crypto Recovery Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0e7ee4;
+      --secondary: #2dd4bf;
+      --overlay: rgba(0, 0, 0, 0.72);
+      --card-bg: rgba(255,255,255,0.92);
+      --text-main: #1a202c;
+      --text-subtle: #374151;
+      --shadow: 0 6px 32px 0 rgba(30,41,59,0.14);
     }
-    </script>
 
-    <!-- Aggregate Rating Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "AggregateRating",
-      "itemReviewed": {
-        "@type": "Organization",
-        "image": "https://coinstats-ai-recovery.com/assets/logo.png",
-        "name": "CoinStats Ai.Recovery",
-        "telephone": "+1 (555) 123-4567",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "123 Main Street",
-          "addressLocality": "New York",
-          "addressRegion": "NY",
-          "postalCode": "10001",
-          "addressCountry": "US"
-        }
-      },
-      "ratingValue": 4.9,
-      "bestRating": 5,
-      "ratingCount": 150
+    body, html {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      color: var(--text-main);
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat fixed;
+      position: relative;
     }
-    </script>
-    <!-- Add your own stylesheets and scripts below -->
-    <link rel="stylesheet" href="https://coinstats-ai-recovery.com/assets/style.css" />
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--overlay);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .center-container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow);
+      padding: 3rem 2.5rem 2.5rem 2.5rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .card h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      letter-spacing: -1px;
+    }
+
+    .card p {
+      font-size: 1.1rem;
+      color: var(--text-subtle);
+      margin-bottom: 2.2rem;
+      font-weight: 400;
+    }
+
+    .cta-btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.95rem 2.4rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 16px 0 rgba(46,91,255,0.11);
+      transition: transform 0.18s cubic-bezier(.42,.24,.44,1.09), box-shadow 0.18s;
+    }
+
+    .cta-btn:hover, .cta-btn:focus {
+      transform: scale(1.06);
+      box-shadow: 0 6px 32px 0 rgba(46,91,255,0.25);
+      outline: none;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 2rem 1.1rem 1.4rem 1.1rem;
+        max-width: 95vw;
+      }
+      .card h1 {
+        font-size: 1.4rem;
+      }
+      .cta-btn {
+        font-size: 1rem;
+        padding: 0.7rem 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header class="site-header">
-        <section class="site-header__inner">
-            <a href="/" class="site-header__logo" title="CoinStats Ai.Recovery">
-                <img src="https://coinstats-ai-recovery.com/assets/logo.png" alt="CoinStats Ai.Recovery logo" width="200" height="60">
-            </a>
-            <nav>
-                <ul class="menu">
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#statistics">Stats</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact-banner">Contact</a></li>
-                </ul>
-            </nav>
-            <ul class="site-header__ctas">
-                <li>
-                    <a href="#claim" class="cta bgc-blue">Start Your Claim</a>
-                </li>
-                <li>
-                    <a href="#contact-banner" class="cta keyline">Contact Us</a>
-                </li>
-            </ul>
-        </section>
-    </header>
-    <main id="main" class="main">
-        <section class="hero bgc-blue" id="hero-banner">
-            <div class="hero__inner">
-                <div class="hero__content">
-                    <h1 class="fc-white">Helping you recover what’s rightfully yours</h1>
-                    <div class="wysiwyg-content light fc-white">
-                        <p>Lost crypto or assets in a scam? <br>
-                        CoinStats Ai.Recovery uses advanced AI and expert analysts to help you reclaim your funds. Free consultation, no win no fee.</p>
-                    </div>
-                    <div class="hero__content--row">
-                        <a href="#claim" class="cta bgc-blue">Start Your Claim</a>
-                        <a class="hero__content--row--trustpilot" href="#" target="_blank" aria-label="trustpilot">
-                            <img src="https://coinstats-ai-recovery.com/assets/trustpilot.png" alt="Trustpilot" width="200" height="38" />
-                        </a>
-                    </div>
-                </div>
-                <div class="hero__media">
-                    <!-- Optionally add a hero image or video here -->
-                </div>
-            </div>
-        </section>
-        <section class="logo-ticker bgc-white" id="logo-ticker">
-            <div class="logo-ticker__inner">
-                <h3>Proud to be associated with and featured in</h3>
-                <ul class="logo-ticker__list">
-                    <!-- Replace with your own logos -->
-                    <li><img src="https://coinstats-ai-recovery.com/assets/partner1.svg" alt="Partner 1" width="120" height="40"></li>
-                    <li><img src="https://coinstats-ai-recovery.com/assets/partner2.svg" alt="Partner 2" width="120" height="40"></li>
-                    <li><img src="https://coinstats-ai-recovery.com/assets/partner3.svg" alt="Partner 3" width="120" height="40"></li>
-                </ul>
-            </div>
-        </section>
-        <section class="signposts bgc-white" id="services">
-            <div class="signposts__intro">
-                <h3 class="heavy">Crypto & Asset Recovery Made Simple</h3>
-                <div class="wysiwyg-content light fc-dark-grey">
-                    <p>Scams come in many forms. Whether you lost funds to a fraudulent broker, a hacked exchange, or a phishing attack, our AI-driven platform and expert team are here to help.</p>
-                </div>
-            </div>
-            <ul class="signposts__grid">
-                <li class="signpost">
-                    <a href="#tracing" class="hover">
-                        <div class="signpost__icon bgc-white">
-                            <img src="https://coinstats-ai-recovery.com/assets/icons/magnifier.svg" alt="Tracing services" height="64" width="64">
-                        </div>
-                        <h3 class="heavy">Tracing Services</h3>
-                        <div class="wysiwyg-content light fc-dark-grey">
-                            <p>We track and analyze blockchain transactions to uncover where lost funds have gone.</p>
-                        </div>
-                        <p>Find out more</p>
-                    </a>
-                </li>
-                <li class="signpost">
-                    <a href="#crypto-losses" class="hover">
-                        <div class="signpost__icon bgc-white">
-                            <img src="https://coinstats-ai-recovery.com/assets/icons/crypto.svg" alt="Crypto losses" height="64" width="64">
-                        </div>
-                        <h3 class="heavy">Crypto Trading Losses</h3>
-                        <div class="wysiwyg-content light fc-dark-grey">
-                            <p>Specialists in identifying and recovering assets lost in fraudulent crypto schemes.</p>
-                        </div>
-                        <p>Find out more</p>
-                    </a>
-                </li>
-                <li class="signpost">
-                    <a href="#online-scams" class="hover">
-                        <div class="signpost__icon bgc-white">
-                            <img src="https://coinstats-ai-recovery.com/assets/icons/shield.svg" alt="Online scams" height="64" width="64">
-                        </div>
-                        <h3 class="heavy">Online Scam Recovery</h3>
-                        <div class="wysiwyg-content light fc-dark-grey">
-                            <p>Recover your assets from internet and phishing scams with our dedicated support.</p>
-                        </div>
-                        <p>Find out more</p>
-                    </a>
-                </li>
-            </ul>
-            <div class="signposts__lower">
-                <p class="light ta-center fc-dark-grey">See how we can help in a range of scenarios — from crypto scams to online fraud.</p>
-                <a href="#services" class="cta bgc-blue">View all services</a>
-            </div>
-        </section>
-        <section class="stat-block bgc-light-blue" id="statistics">
-            <div class="stat-block__upper">
-                <h3 class="heavy">Over $25,000,000 Recovered for Clients</h3>
-                <div class="stat-block__upper-body">
-                    <div class="wysiwyg-content fc-dark-grey light">
-                        <p>Our combination of AI technology and investigative experience has helped thousands recover their lost assets worldwide.</p>
-                    </div>
-                    <a href="#about" class="simple-cta fc-blue">Find out more</a>
-                </div>
-            </div>
-            <ul class="stat-block__stats">
-                <li>
-                    <h4 class="light">$<span class="js-count-up">25</span>m+</h4>
-                    <p class="light">recovered so far</p>
-                </li>
-                <li>
-                    <h4 class="light"><span class="js-count-up">1500</span>+</h4>
-                    <p class="light">clients helped</p>
-                </li>
-                <li>
-                    <h4 class="light">24/<span class="js-count-up">7</span></h4>
-                    <p class="light">support</p>
-                </li>
-                <li>
-                    <h4 class="light">4.<span class="js-count-up">9</span></h4>
-                    <p class="light">Trustpilot score</p>
-                </li>
-            </ul>
-        </section>
-        <section class="contact-banner bgc-blue" id="contact-banner">
-            <div class="contact-banner__inner">
-                <div class="contact-banner__media">
-                    <img loading="lazy" src="https://coinstats-ai-recovery.com/assets/team.jpg" alt="CoinStats Ai.Recovery team" width="360" height="280">
-                </div>
-                <div class="contact-banner__body fc-white">
-                    <h3 class="heavy">Contact Our Recovery Experts</h3>
-                    <div class="wysiwyg-content light">
-                        <p>Victim of a scam? Our team is ready to listen and help you recover your assets. Reach out for a free, confidential consultation.</p>
-                    </div>
-                    <ul class="contact-banner__contacts">
-                        <li>
-                            <p>Call</p>
-                            <a class="fs-text-xl" href="tel:+15551234567">+1 (555) 123-4567</a>
-                        </li>
-                        <li>
-                            <p>Email</p>
-                            <a class="fs-text-xl" href="mailto:info@coinstats-ai-recovery.com">info@coinstats-ai-recovery.com</a>
-                        </li>
-                    </ul>
-                    <div class="contact-banner__ctas">
-                        <a class="cta bgc-blue" href="#claim">Start Your Claim</a>
-                        <a class="cta keyline" href="mailto:info@coinstats-ai-recovery.com">Request a Callback</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Add more sections as needed -->
-    </main>
-    <footer class="bgc-blue site-footer">
-        <div class="site-footer__inner">
-            <a href="/" class="site-footer__logo" title="CoinStats Ai.Recovery">
-                <img src="https://coinstats-ai-recovery.com/assets/logo.png" alt="" width="140" height="32">
-            </a>
-            <ul class="site-footer__contact">
-                <li>
-                    <h4>Call:</h4>
-                    <a href="tel:+15551234567">+1 (555) 123-4567</a>
-                </li>
-                <li>
-                    <h4>Email:</h4>
-                    <a href="mailto:info@coinstats-ai-recovery.com">info@coinstats-ai-recovery.com</a>
-                </li>
-                <li>
-                    <h4>Office:</h4>
-                    <div>
-                        <p>123 Main Street</p>
-                        <p>New York, NY 10001</p>
-                        <p>USA</p>
-                    </div>
-                </li>
-            </ul>
-            <ul class="site-footer__social">
-                <li>
-                    <a href="https://facebook.com/coinstatsrecovery" target="_blank" title="Facebook">Facebook</a>
-                </li>
-                <li>
-                    <a href="https://instagram.com/coinstatsrecovery" target="_blank" title="Instagram">Instagram</a>
-                </li>
-                <li>
-                    <a href="https://linkedin.com/company/coinstats-ai-recovery" target="_blank" title="LinkedIn">LinkedIn</a>
-                </li>
-                <li>
-                    <a href="https://twitter.com/CoinStatsRecovery" target="_blank" title="Twitter">Twitter</a>
-                </li>
-            </ul>
-            <div class="site-footer__footer">
-                <p class="site-footer__terms">CoinStats Ai.Recovery &copy; 2025. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
+  <div class="center-container">
+    <div class="card">
+      <h1>Crypto Recovery Platform</h1>
+      <p>
+        Securely recover lost cryptocurrencies and assets with our trusted, transparent, and modern recovery solutions.
+      </p>
+      <button class="cta-btn">Start Recovery</button>
+    </div>
+  </div>
 </body>
 </html>
