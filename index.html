@@ -290,7 +290,7 @@
       <button class="close-modal-btn" id="close-deposit-modal" title="Close">&times;</button>
       <h2>Deposit USDT</h2>
       <div class="qr-section" style="align-items:center;">
-        <!-- QR code img element, wallet-like size -->
+        <!-- QR code img element, wallet-like size (static QR, for demo replace with real QR or QR API if needed) -->
         <img id="deposit-qr-img" src="IMG_2325.jpeg" alt="Deposit QR Code" style="width:92px;height:92px;display:block;margin:0 auto 0.6rem auto;background:#fff;border-radius:0.3rem;border:1px solid #e2e8f0;" />
         <div class="modal-note" style="margin-bottom:0.7rem;">Scan QR code to get the address in your wallet app.</div>
       </div>
@@ -403,7 +403,8 @@
       const depositAddress = "TYdrLopgqmAbwbFnqMvNDsSwUXzL5UoJ7P"; // Example USDT TRC20 address
 
       depositBtn.onclick = function() {
-        depositQrImg.src = "IMG_2325.jpeg?cht=qr&chs=92x92&chl=" + encodeURIComponent(depositAddress);
+        // For demo, static QR image; in real use, generate QR code for depositAddress
+        // If you want QR to update dynamically, use a QR API or canvas to draw it
         depositAddressText.textContent = depositAddress;
         depositModalBg.classList.remove('hidden');
       };
